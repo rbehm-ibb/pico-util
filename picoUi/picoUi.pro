@@ -75,6 +75,7 @@ RESOURCES += \
 
 DISTFILES += \
 	.gitignore \
+	README.md \
 	bin/picoUi.rc \
 	rsc/logo.png \
 	rsc/defaults.rc \
