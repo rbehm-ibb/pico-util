@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>defaults.rc</file>
+        <file>logo.png</file>
+        <file>launch.svgz</file>
+    </qresource>
+</RCC>
