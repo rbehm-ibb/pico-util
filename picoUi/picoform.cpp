@@ -34,15 +34,22 @@ PicoForm::PicoForm(QWidget *parent)
 	setAcceptDrops(true);
 	ui->picoPort->setStyleSheet("* { background: white; }");
 	chkDownload();
-	ui->download->setChecked(Config::boolValue("picoForm/autodl"));
+	ui->download->setChecked(Config::boolValue("picoForm/auto"));
+	ui->autoDl->setChecked(Config::boolValue("picoForm/autodl"));
 }
 
 PicoForm::~PicoForm()
 {
 	Config::setValue("picoForm/bindir", ui->binDir->text());
 	Config::setValue("picoForm/picoDir", ui->picoDir->text());
-	Config::setValue("picoForm/autodl", ui->download->isChecked());
+	Config::setValue("picoForm/auto", ui->download->isChecked());
+	Config::setValue("picoForm/autodl", ui->autoDl->isChecked());
 	delete ui;
+}
+
+void PicoForm::initBinDir(const QString dir)
+{
+	setBinDir(dir);
 }
 
 void PicoForm::changeEvent(QEvent *e)
@@ -103,7 +110,14 @@ void PicoForm::picoDirectoryChanged(const QString &path)
 	QDir dir(ui->picoDir->text());
 	m_hasPico = dir.exists();
 	ui->picodirlab->setStyleSheet(m_styles.value(m_hasPico));
-	chkDownload();
+	if (ui->autoDl->isChecked() && m_hasBin && m_hasPico)
+	{
+		on_actionDownload_triggered();
+	}
+	else
+	{
+		chkDownload();
+	}
 }
 
 void PicoForm::setBinDir(QString dn)
@@ -266,5 +280,13 @@ void PicoForm::on_actionDownload_triggered()
 			return;
 		}
 		f.remove();
+	}
+}
+
+void PicoForm::on_download_toggled(bool checked)
+{
+	if (checked)
+	{
+		ui->autoDl->setChecked(true);
 	}
 }

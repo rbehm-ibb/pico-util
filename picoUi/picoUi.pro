@@ -44,22 +44,17 @@ include( $$[PRTEMPLATE]/lib/utils/ledicon/ledicon.pri)
 
 TARGET = picoUi
 
-QT +=
 QT += serialport
 
 DEFINES +=
 
 HEADERS += \
-#	ibserialport.h \
-#	ibserialportline.h \
 	console.h \
 	mainwindow.h \
 	picoform.h \
 	picoport.h
 
 SOURCES += \
-#	ibserialport.cpp \
-#	ibserialportline.cpp \
 	console.cpp \
 	main.cpp \
 	mainwindow.cpp \
@@ -78,6 +73,5 @@ DISTFILES += \
 	README.md \
 	bin/picoUi.rc \
 	rsc/logo.png \
-	rsc/defaults.rc \
-	rsc/styles.css
+	rsc/defaults.rc
 

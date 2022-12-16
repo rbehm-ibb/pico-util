@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 	app.setApplicationVersion("V0.1");
 	app.setOrganizationDomain("ibb-aviotec.com");
 	app.setOrganizationName("IBB-aviotech");
-//	QString fileName;
+	QString srcDir;
 	{
 		const QString logo(":/logo/ibb-logo");
 		app.setProperty("copyright-icon", logo);
@@ -25,12 +25,12 @@ int main(int argc, char *argv[])
 		parser.setApplicationDescription(app.applicationName());
 		parser.addHelpOption();
 		parser.addVersionOption();
-//		parser.addPositionalArgument("file", "file-name");
+		parser.addPositionalArgument("srcdir", "srcdir");
 		parser.process(app);
-//		if (! parser.positionalArguments().isEmpty())
-//		{
-//			fileName = parser.positionalArguments().first();
-//		}
+		if (! parser.positionalArguments().isEmpty())
+		{
+			srcDir = parser.positionalArguments().first();
+		}
 	}
 //	{
 //		QFile sf(":/styles.css");
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 //		app.setStyleSheet(sf.readAll());
 //	}
 	Config::loadDefaults();
-	MainWindow mw;
+	MainWindow mw(srcDir);
 	mw.show();
 	return app.exec();
 }

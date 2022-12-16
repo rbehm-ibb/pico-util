@@ -9,11 +9,15 @@
 #include "config.h"
 #include "picoport.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QString binDir, QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	if (! binDir.isEmpty())
+	{
+		ui->picoForm->initBinDir(binDir);
+	}
 	connect(ui->picoForm->port(), &QSerialPort::readyRead, this, &MainWindow::readRxdDataSlot);
 //	connect(ui->picoForm->port(), &PicoPort::devChanged, this, &MainWindow::devChanged);
 	connect(ui->console, &Console::sendSerial, ui->picoForm->port(), &PicoPort::sendSerial);

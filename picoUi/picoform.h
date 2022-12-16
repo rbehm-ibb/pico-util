@@ -21,6 +21,7 @@ class PicoForm : public QWidget
 public:
 	explicit PicoForm(QWidget *parent = nullptr);
 	~PicoForm();
+	void initBinDir(const  QString dir);
 	PicoPort *port() const {  return m_port; }
 
 protected:
@@ -35,6 +36,8 @@ private slots:
 	void picoDirectoryChanged(const QString &path);
 	void on_reset_clicked();
 	void on_actionDownload_triggered();
+
+	void on_download_toggled(bool checked);
 
 private:
 	Ui::PicoForm *ui;
