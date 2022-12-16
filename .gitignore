@@ -6,4 +6,4 @@ unused
 Makefile
 .qmake.stash
 .qtc_clangd
-
+.directory
