@@ -1,0 +1,9 @@
+*~
+*.pro.user
+.build
+bin
+unused
+Makefile
+.qmake.stash
+.qtc_clangd
+

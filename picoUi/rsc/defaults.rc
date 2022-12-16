@@ -1,0 +1,4 @@
+[picoForm]
+autodl=0
+bindir=/home/behm/Projects/SystemComm-Crypto/sw-play/pico-moduletest/build
+picoDir=/run/media/behm/RPI-RP2
