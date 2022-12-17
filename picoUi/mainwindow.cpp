@@ -46,3 +46,14 @@ void MainWindow::on_actionClear_triggered()
 {
 	ui->console->clear();
 }
+
+void MainWindow::on_actionSizeH_triggered()
+{
+	QDesktopWidget *dt = qApp->desktop();
+	QSize sz = dt->screenGeometry(this).size();
+//	qDebug() << Q_FUNC_INFO << dt->screenNumber(this) << dt->screenGeometry(this) << dt->availableGeometry(this);
+	QSize msz = size();
+	msz.setHeight(sz.height());
+	resize(msz);
+}
+

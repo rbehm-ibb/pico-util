@@ -47,21 +47,34 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionSizeH"/>
    <addaction name="actionClear"/>
   </widget>
   <widget class="QDockWidget" name="picoDock">
+   <property name="windowTitle">
+    <string>Download</string>
+   </property>
    <attribute name="dockWidgetArea">
-    <number>1</number>
+    <number>8</number>
    </attribute>
    <widget class="PicoForm" name="picoForm"/>
   </widget>
   <action name="actionClear">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/fileclose</normaloff>:/fileclose</iconset>
    </property>
    <property name="text">
     <string>Clear</string>
+   </property>
+  </action>
+  <action name="actionSizeH">
+   <property name="icon">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+     <normaloff>:/top</normaloff>:/top</iconset>
+   </property>
+   <property name="text">
+    <string>SizeH</string>
    </property>
   </action>
  </widget>
@@ -85,7 +98,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
+  <include location="../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>
