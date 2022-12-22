@@ -20,9 +20,72 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
+    <property name="spacing">
+     <number>1</number>
+    </property>
+    <property name="leftMargin">
+     <number>1</number>
+    </property>
+    <property name="topMargin">
+     <number>1</number>
+    </property>
+    <property name="rightMargin">
+     <number>1</number>
+    </property>
+    <property name="bottomMargin">
+     <number>1</number>
+    </property>
     <item>
      <widget class="Console" name="console" native="true"/>
+    </item>
+    <item>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="verticalSpacing">
+          <number>0</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>TxLine</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="txline">
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -36,7 +99,14 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+  </widget>
   <widget class="IBToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
@@ -51,6 +121,12 @@
    <addaction name="actionClear"/>
   </widget>
   <widget class="QDockWidget" name="picoDock">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="windowTitle">
     <string>Download</string>
    </property>
@@ -61,7 +137,7 @@
   </widget>
   <action name="actionClear">
    <property name="icon">
-    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/fileclose</normaloff>:/fileclose</iconset>
    </property>
    <property name="text">
@@ -70,7 +146,7 @@
   </action>
   <action name="actionSizeH">
    <property name="icon">
-    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/top</normaloff>:/top</iconset>
    </property>
    <property name="text">
@@ -98,7 +174,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
+  <include location="../../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -57,3 +57,9 @@ void MainWindow::on_actionSizeH_triggered()
 	resize(msz);
 }
 
+
+void MainWindow::on_txline_returnPressed()
+{
+	QByteArray line = ui->txline->text().toLocal8Bit();
+	ui->picoForm->port()->sendSerial(line + '\r');
+}

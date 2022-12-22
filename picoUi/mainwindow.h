@@ -28,6 +28,8 @@ private slots:
 	void on_actionClear_triggered();
 	void on_actionSizeH_triggered();
 
+	void on_txline_returnPressed();
+
 private:
 	Ui::MainWindow *ui;
 };
