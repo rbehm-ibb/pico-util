@@ -39,6 +39,8 @@ private slots:
 
 	void on_download_toggled(bool checked);
 
+	void on_actiondelBin_triggered();
+
 private:
 	Ui::PicoForm *ui;
 	PicoPort *m_port;

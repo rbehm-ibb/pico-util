@@ -24,6 +24,7 @@ PicoForm::PicoForm(QWidget *parent)
 	ui->binDir->addAction(ui->actionSelBin, QLineEdit::TrailingPosition);
 	ui->binDir->addAction(ui->actionViewBin, QLineEdit::TrailingPosition);
 	ui->binFile->addAction(ui->actionDownload, QLineEdit::TrailingPosition);
+	ui->binFile->addAction(ui->actiondelBin, QLineEdit::TrailingPosition);
 	ui->picoDir->addAction(ui->actionSelPicoDir, QLineEdit::TrailingPosition);
 	connect(m_port, &PicoPort::devChanged, this, &PicoForm::devChanged);
 	connect(m_binDirWatcher, &QFileSystemWatcher::directoryChanged, this, &PicoForm::binDirectoryChanged);
@@ -198,6 +199,7 @@ void PicoForm::chkDownload()
 {
 //	qDebug() << Q_FUNC_INFO << m_hasBin << m_hasPico << ui->download->isChecked();
 	ui->actionDownload->setEnabled(m_hasBin && m_hasPico);
+	ui->actiondelBin->setEnabled(m_hasBin);
 	if (m_hasBin && m_hasPico && ui->download->isChecked())
 	{
 		on_actionDownload_triggered();
@@ -289,4 +291,18 @@ void PicoForm::on_download_toggled(bool checked)
 	{
 		ui->autoDl->setChecked(true);
 	}
+}
+
+void PicoForm::on_actiondelBin_triggered()
+{
+	qDebug() << Q_FUNC_INFO;
+	QDir dir(ui->binDir->text());
+	QString bfn(dir.absoluteFilePath(ui->binFile->text()));
+	QFile f(bfn);
+	if (! f.exists())
+	{
+		qWarning() << Q_FUNC_INFO << f.fileName() << "not found";
+		return;
+	}
+	f.remove();
 }

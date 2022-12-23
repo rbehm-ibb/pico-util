@@ -626,6 +626,15 @@
     <string>Download the binary to Pico</string>
    </property>
   </action>
+  <action name="actiondelBin">
+   <property name="icon">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+     <normaloff>:/cut</normaloff>:/cut</iconset>
+   </property>
+   <property name="text">
+    <string>delBin</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="rsc/rsc.qrc"/>
