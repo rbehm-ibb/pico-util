@@ -18,6 +18,7 @@ MainWindow::MainWindow(QString binDir, QWidget *parent)
 	{
 		ui->picoForm->initBinDir(binDir);
 	}
+	ui->txline->setText(Config::stringValue("txline"));
 	connect(ui->picoForm->port(), &QSerialPort::readyRead, this, &MainWindow::readRxdDataSlot);
 //	connect(ui->picoForm->port(), &PicoPort::devChanged, this, &MainWindow::devChanged);
 	connect(ui->console, &Console::sendSerial, ui->picoForm->port(), &PicoPort::sendSerial);
@@ -25,6 +26,7 @@ MainWindow::MainWindow(QString binDir, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+	Config::setValue("txline", ui->txline->text());
 	delete ui;
 }
 
