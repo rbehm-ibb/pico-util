@@ -30,6 +30,10 @@ private slots:
 
 	void on_txline_returnPressed();
 
+	void on_sendline_activated(int index);
+
+	void on_actionClearHistory_triggered();
+
 private:
 	Ui::MainWindow *ui;
 };

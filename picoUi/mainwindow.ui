@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
+   <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0,0">
     <property name="spacing">
      <number>1</number>
     </property>
@@ -74,13 +74,6 @@
          <property name="verticalSpacing">
           <number>0</number>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>TxLine</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
           <widget class="QLineEdit" name="txline">
            <property name="clearButtonEnabled">
@@ -88,9 +81,26 @@
            </property>
           </widget>
          </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="sendButton">
+           <property name="text">
+            <string>Send</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="sendline">
+      <property name="editable">
+       <bool>true</bool>
+      </property>
+      <property name="insertPolicy">
+       <enum>QComboBox::InsertAtTop</enum>
+      </property>
      </widget>
     </item>
    </layout>
@@ -125,6 +135,7 @@
    </attribute>
    <addaction name="actionSizeH"/>
    <addaction name="actionClear"/>
+   <addaction name="actionClearHistory"/>
   </widget>
   <widget class="QDockWidget" name="picoDock">
    <property name="sizePolicy">
@@ -143,7 +154,7 @@
   </widget>
   <action name="actionClear">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/fileclose</normaloff>:/fileclose</iconset>
    </property>
    <property name="text">
@@ -152,11 +163,20 @@
   </action>
   <action name="actionSizeH">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/top</normaloff>:/top</iconset>
    </property>
    <property name="text">
     <string>SizeH</string>
+   </property>
+  </action>
+  <action name="actionClearHistory">
+   <property name="icon">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+     <normaloff>:/stdicons/delete.png</normaloff>:/stdicons/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>ClearHistory</string>
    </property>
   </action>
  </widget>
@@ -180,7 +200,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
+  <include location="../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>
