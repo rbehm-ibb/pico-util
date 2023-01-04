@@ -21,7 +21,7 @@ PicoPort::~PicoPort()
 
 QString PicoPort::device() const
 {
-	QString s("%1:%2\nSN:%3");
+	QString s("%1:%2\tSN:%3");
 	if (m_devInfo.isNull())
 	{
 		return "--:--";
