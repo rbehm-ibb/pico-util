@@ -11,7 +11,7 @@ PicoPort::PicoPort(QObject *parent)
 {
 	m_baud = 115200;
 //	qDebug() << Q_FUNC_INFO << device() << m_baud;
-	startTimer(200);
+//	startTimer(200);
 }
 
 PicoPort::~PicoPort()
@@ -50,6 +50,7 @@ void PicoPort::sendSerial(QByteArray bytes)
 
 void PicoPort::timerEvent(QTimerEvent *event)
 {
+	Q_UNUSED(event)
 	static bool inside = false;
 	if (inside)
 	{
@@ -76,7 +77,6 @@ void PicoPort::timerEvent(QTimerEvent *event)
 			}
 		}
 	}
-	Q_UNUSED(event)
 	bool exist = QFile::exists(m_devInfo.systemLocation());
 	if (isOpen())
 	{

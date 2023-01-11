@@ -40,6 +40,8 @@ PicoForm::PicoForm(QWidget *parent)
 	QFileSystemWatcher *devW = new QFileSystemWatcher(this);
 	connect(devW, &QFileSystemWatcher::directoryChanged, this, &PicoForm::devDirectoryChanged);
 	devW->addPath("/dev");
+	devDirectoryChanged(QString());
+	ui->portSel->setCurrentText(Config::stringValue("picoForm/port"));
 }
 
 PicoForm::~PicoForm()
@@ -48,6 +50,7 @@ PicoForm::~PicoForm()
 	Config::setValue("picoForm/picoDir", ui->picoDir->text());
 	Config::setValue("picoForm/auto", ui->download->isChecked());
 	Config::setValue("picoForm/autodl", ui->autoDl->isChecked());
+	Config::setValue("picoForm/port", ui->portSel->currentText());
 	delete ui;
 }
 
@@ -312,5 +315,22 @@ void PicoForm::on_actiondelBin_triggered()
 
 void PicoForm::devDirectoryChanged(const QString &path)
 {
+	const uint16_t vidPi = 0x2e8a;
+	const uint16_t vidEAE = 0x0ae6;
+	const QVector<uint16_t> vid({ vidPi, vidEAE });
 	qDebug() << Q_FUNC_INFO << path;
+	QString  saved = ui->portSel->currentText();
+	ui->portSel->clear();
+	foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
+	{
+		if (vid.contains(spi.vendorIdentifier()))
+		{
+			QString s("%1 %2:%3 %4");
+			s = s.arg(spi.portName()).arg(spi.vendorIdentifier(), 4, 16).arg(spi.productIdentifier(), 4, 16).arg(spi.serialNumber());
+			qDebug() << Q_FUNC_INFO << s;
+			ui->portSel->addItem(s);
+		}
+	}
+	ui->portSel->setCurrentText(saved);
+	m_port->chkPort();
 }

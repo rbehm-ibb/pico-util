@@ -15,6 +15,7 @@ public:
 	~PicoPort();
 	QString device() const;
 	void boot();
+	void chkPort() { timerEvent(nullptr); }
 signals:
 	void  devChanged(bool  on);
 public slots:
