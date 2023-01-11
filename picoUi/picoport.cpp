@@ -99,7 +99,7 @@ void PicoPort::timerEvent(QTimerEvent *event)
 		setBaudRate(m_baud);
 		while (! open(QIODevice::ReadWrite))
 		{
-			qWarning() << Q_FUNC_INFO << timer.elapsed() * 1e-3 << portName() << errorString();
+//			qWarning() << Q_FUNC_INFO << timer.elapsed() * 1e-3 << portName() << errorString();
 			if (timer.elapsed() > 10 * 1000)
 				break;;
 		}
