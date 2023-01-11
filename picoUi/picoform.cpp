@@ -37,6 +37,9 @@ PicoForm::PicoForm(QWidget *parent)
 	chkDownload();
 	ui->download->setChecked(Config::boolValue("picoForm/auto"));
 	ui->autoDl->setChecked(Config::boolValue("picoForm/autodl"));
+	QFileSystemWatcher *devW = new QFileSystemWatcher(this);
+	connect(devW, &QFileSystemWatcher::directoryChanged, this, &PicoForm::devDirectoryChanged);
+	devW->addPath("/dev");
 }
 
 PicoForm::~PicoForm()
@@ -305,4 +308,9 @@ void PicoForm::on_actiondelBin_triggered()
 		return;
 	}
 	f.remove();
+}
+
+void PicoForm::devDirectoryChanged(const QString &path)
+{
+	qDebug() << Q_FUNC_INFO << path;
 }

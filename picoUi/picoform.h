@@ -40,6 +40,7 @@ private slots:
 	void on_download_toggled(bool checked);
 
 	void on_actiondelBin_triggered();
+	void devDirectoryChanged(const QString &path);
 
 private:
 	Ui::PicoForm *ui;
