@@ -15,19 +15,24 @@ public:
 	~PicoPort();
 	QString device() const;
 	void boot();
-	void chkPort() { timerEvent(nullptr); }
+	void open(QSerialPortInfo si);
+//	void open(QString port);
+//	void chkPort() { timerEvent(nullptr); }
+	void setSerial(const QString sn);
+	QSerialPortInfo devInfo() const { return m_devInfo; }
+
 signals:
 	void  devChanged(bool  on);
 public slots:
 	void sendSerial(QByteArray bytes);
 private slots:
-//	void lostPortErrorSl();
 protected:
-	void timerEvent(QTimerEvent *event) override;
+//	void timerEvent(QTimerEvent *event) override;
 	static const uint16_t m_vid = 0x2e8a;
 	static const uint16_t m_pid = 0x000a;
 	QSerialPortInfo m_devInfo;
 	qint32 m_baud;
+	QString m_sn;
 };
 
 #endif // PICOPORT_H

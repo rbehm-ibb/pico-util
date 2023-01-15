@@ -37,17 +37,76 @@ void PicoPort::boot()
 	}
 }
 
-//void PicoPort::lostPortErrorSl()
-//{
-//	qDebug() << Q_FUNC_INFO;
-//}
+void PicoPort::open(QSerialPortInfo si)
+{
+	if (isOpen() && portName() != si.portName())
+	{
+		qDebug() << Q_FUNC_INFO << portName() << si.portName();
+		close();
+	}
+	qDebug() << Q_FUNC_INFO << si.portName();
+	if (! isOpen())
+	{
+		setPort(si);
+		m_devInfo = si;
+		setBaudRate(m_baud);
+		if (! QSerialPort::open(QIODevice::ReadWrite))
+		{
+			qWarning() << Q_FUNC_INFO << portName() << errorString();
+		}
+		else
+		{
+			setPort(m_devInfo);
+			setBaudRate(m_baud);
+			setParity(QSerialPort::NoParity);
+			setDataBits(QSerialPort::Data8);
+			setFlowControl(QSerialPort::NoFlowControl);
+		}
+	}
+	emit devChanged(isOpen());
+}
+
+#if 0
+void PicoPort::open(QString port)
+{
+	if (isOpen() && portName() != port)
+	{
+		qDebug() << Q_FUNC_INFO << portName() << port;
+		close();
+	}
+	if (! isOpen())
+	{
+		QSerialPort::setPortName(port);
+		setBaudRate(m_baud);
+		if (! QSerialPort::open(QIODevice::ReadWrite))
+		{
+			qWarning() << Q_FUNC_INFO << portName() << errorString();
+		}
+		else
+		{
+//			m_devInfo = QSerialPort::
+			setPort(m_devInfo);
+			setBaudRate(m_baud);
+			setParity(QSerialPort::NoParity);
+			setDataBits(QSerialPort::Data8);
+			setFlowControl(QSerialPort::NoFlowControl);
+		}
+	}
+	emit devChanged(isOpen());
+}
+#endif
+
+void PicoPort::setSerial(const QString sn)
+{
+	m_sn = sn;
+}
 
 void PicoPort::sendSerial(QByteArray bytes)
 {
 	QSerialPort::write(bytes);
 }
 
-
+#if 0
 void PicoPort::timerEvent(QTimerEvent *event)
 {
 	Q_UNUSED(event)
@@ -111,3 +170,5 @@ void PicoPort::timerEvent(QTimerEvent *event)
 	}
 	inside = false;
 }
+#endif
+

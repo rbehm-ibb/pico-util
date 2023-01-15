@@ -17,6 +17,7 @@ PicoForm::PicoForm(QWidget *parent)
 	, m_picoDirWatcher(new QFileSystemWatcher(this))
 	, m_hasBin(false)
 	, m_hasPico(false)
+	, m_inside(false)
 {
 	ui->setupUi(this);
 	m_styles.insert(false, "* { background: #ffffc0; }");
@@ -40,8 +41,10 @@ PicoForm::PicoForm(QWidget *parent)
 	QFileSystemWatcher *devW = new QFileSystemWatcher(this);
 	connect(devW, &QFileSystemWatcher::directoryChanged, this, &PicoForm::devDirectoryChanged);
 	devW->addPath("/dev");
+	m_sn = Config::stringValue("pico/serial");
+	ui->portSel->setCurrentText(m_sn);
 	devDirectoryChanged(QString());
-	ui->portSel->setCurrentText(Config::stringValue("picoForm/port"));
+//	ui->portSel->setCurrentText(Config::stringValue("picoForm/port"));
 }
 
 PicoForm::~PicoForm()
@@ -51,6 +54,7 @@ PicoForm::~PicoForm()
 	Config::setValue("picoForm/auto", ui->download->isChecked());
 	Config::setValue("picoForm/autodl", ui->autoDl->isChecked());
 	Config::setValue("picoForm/port", ui->portSel->currentText());
+	Config::setValue("pico/serial", m_sn);
 	delete ui;
 }
 
@@ -100,6 +104,7 @@ void PicoForm::devChanged(bool on)
 	ui->picolab->setStyleSheet(m_styles.value(on));
 	ui->picoPort->setText(m_port->device());
 	ui->reset->setEnabled(on);
+	qDebug() << Q_FUNC_INFO << m_port->device() << m_port->isOpen() << on;
 }
 
 void PicoForm::binDirectoryChanged(const QString &path)
@@ -313,24 +318,72 @@ void PicoForm::on_actiondelBin_triggered()
 	f.remove();
 }
 
+//Q_DECLARE_METATYPE(QSerialPortInfo);
+
 void PicoForm::devDirectoryChanged(const QString &path)
 {
+	m_inside = true;
+	Q_UNUSED(path);
 	const uint16_t vidPi = 0x2e8a;
 	const uint16_t vidEAE = 0x0ae6;
 	const QVector<uint16_t> vid({ vidPi, vidEAE });
-	qDebug() << Q_FUNC_INFO << path;
-	QString  saved = ui->portSel->currentText();
+	qDebug() << Q_FUNC_INFO;
+	QString saved = ui->portSel->currentText();
 	ui->portSel->clear();
+	QSerialPortInfo csi;
 	foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
 	{
 		if (vid.contains(spi.vendorIdentifier()))
 		{
-			QString s("%1 %2:%3 %4");
-			s = s.arg(spi.portName()).arg(spi.vendorIdentifier(), 4, 16).arg(spi.productIdentifier(), 4, 16).arg(spi.serialNumber());
-			qDebug() << Q_FUNC_INFO << s;
+			QString s("%1 %2:%3 #%4");
+			s = s.arg(spi.portName()).arg(spi.vendorIdentifier(), 4, 16, QChar('0')).arg(spi.productIdentifier(), 4, 16, QChar('0')).arg(spi.serialNumber());
+			qDebug() << Q_FUNC_INFO << s << m_sn;
 			ui->portSel->addItem(s);
+			if (spi.serialNumber() == m_sn)
+			{
+				csi = spi;
+			}
 		}
 	}
 	ui->portSel->setCurrentText(saved);
-	m_port->chkPort();
+	if (m_port && m_port->isOpen())
+	{
+		QSerialPortInfo si = m_port->devInfo();
+		if (si.isNull() && si.serialNumber() != m_sn)
+		{
+			m_port->open(csi);
+		}
+	}
+	else
+	{
+		m_port->open(csi);
+	}
+	devChanged(m_port->isOpen());
+	m_inside = false;
 }
+
+void PicoForm::on_portSel_currentIndexChanged(int index)
+{
+	qDebug() << Q_FUNC_INFO << index << m_sn;
+	if (m_inside)
+		return;
+	if (index >= 0)
+	{
+		QString sn = ui->portSel->currentText().section('#', -1);
+		if (sn != m_sn)
+		{
+			m_sn = sn;
+			qDebug() << Q_FUNC_INFO << index << m_sn;
+			ui->portSel->setCurrentText(ui->portSel->itemText(index));
+			foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
+			{
+				if (spi.serialNumber() == m_sn)
+				{
+					m_port->open(spi);
+					return;
+				}
+			}
+		}
+	}
+}
+

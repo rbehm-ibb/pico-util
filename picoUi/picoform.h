@@ -42,6 +42,8 @@ private slots:
 	void on_actiondelBin_triggered();
 	void devDirectoryChanged(const QString &path);
 
+	void on_portSel_currentIndexChanged(int index);
+
 private:
 	Ui::PicoForm *ui;
 	PicoPort *m_port;
@@ -53,6 +55,8 @@ private:
 	void chkBin();
 	bool m_hasBin, m_hasPico;
 	void chkDownload();
+	QString m_sn;
+	bool m_inside;
 
 	// QWidget interface
 protected:

@@ -528,7 +528,7 @@
         <string>Boot</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+        <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
          <normaloff>:/stdicons/launch.svgz</normaloff>:/stdicons/launch.svgz</iconset>
        </property>
       </widget>
@@ -572,7 +572,7 @@
   </layout>
   <action name="actionViewBin">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/stdicons/eye.png</normaloff>:/stdicons/eye.png</iconset>
    </property>
    <property name="text">
@@ -584,7 +584,7 @@
   </action>
   <action name="actionSelBin">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/fileopen</normaloff>:/fileopen</iconset>
    </property>
    <property name="text">
@@ -608,7 +608,7 @@
   </action>
   <action name="actionDownload">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/bottom</normaloff>:/bottom</iconset>
    </property>
    <property name="text">
@@ -620,7 +620,7 @@
   </action>
   <action name="actiondelBin">
    <property name="icon">
-    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/cut</normaloff>:/cut</iconset>
    </property>
    <property name="text">
@@ -630,7 +630,7 @@
  </widget>
  <resources>
   <include location="rsc/rsc.qrc"/>
-  <include location="../../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
+  <include location="../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>
