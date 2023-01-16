@@ -34,6 +34,9 @@ void PicoPort::boot()
 	if (isOpen())
 	{
 		QSerialPort::setBaudRate(1200);
+		while  (QFile::exists(m_devInfo.systemLocation()))
+			;
+		close();
 	}
 }
 
