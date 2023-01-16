@@ -42,7 +42,7 @@ private slots:
 	void on_actiondelBin_triggered();
 	void devDirectoryChanged(const QString &path);
 
-	void on_portSel_currentIndexChanged(int index);
+	void on_portSel_activated(int index);
 
 private:
 	Ui::PicoForm *ui;

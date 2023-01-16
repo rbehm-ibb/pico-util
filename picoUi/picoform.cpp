@@ -362,28 +362,26 @@ void PicoForm::devDirectoryChanged(const QString &path)
 	m_inside = false;
 }
 
-void PicoForm::on_portSel_currentIndexChanged(int index)
+void PicoForm::on_portSel_activated(int index)
 {
-	qDebug() << Q_FUNC_INFO << index << m_sn;
-	if (m_inside)
-		return;
-	if (index >= 0)
-	{
-		QString sn = ui->portSel->currentText().section('#', -1);
-		if (sn != m_sn)
-		{
-			m_sn = sn;
-			qDebug() << Q_FUNC_INFO << index << m_sn;
-			ui->portSel->setCurrentText(ui->portSel->itemText(index));
-			foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
-			{
-				if (spi.serialNumber() == m_sn)
-				{
-					m_port->open(spi);
-					return;
-				}
-			}
-		}
-	}
-}
-
+    qDebug() << Q_FUNC_INFO << index << m_sn;
+    if (m_inside)
+	    return;
+    if (index >= 0)
+    {
+	    QString sn = ui->portSel->currentText().section('#', -1);
+	    if (sn != m_sn)
+	    {
+		    m_sn = sn;
+		    qDebug() << Q_FUNC_INFO << index << m_sn;
+		    ui->portSel->setCurrentText(ui->portSel->itemText(index));
+		    foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
+		    {
+			    if (spi.serialNumber() == m_sn)
+			    {
+				    m_port->open(spi);
+				    return;
+			    }
+		    }
+	    }
+    }}
