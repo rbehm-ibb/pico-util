@@ -331,8 +331,13 @@ void PicoForm::devDirectoryChanged(const QString &path)
 	QString saved = ui->portSel->currentText();
 	ui->portSel->clear();
 	QSerialPortInfo csi;
+	bool portFound = false;
 	foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
 	{
+		if (m_port->devInfo().portName() == spi.portName())
+		{
+			portFound = true;
+		}
 		if (vid.contains(spi.vendorIdentifier()))
 		{
 			QString s("%1 %2:%3 #%4");
@@ -344,6 +349,10 @@ void PicoForm::devDirectoryChanged(const QString &path)
 				csi = spi;
 			}
 		}
+	}
+	if (! portFound)
+	{
+		m_port->close();
 	}
 	ui->portSel->setCurrentText(saved);
 	if (m_port && m_port->isOpen())
