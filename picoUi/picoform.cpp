@@ -8,6 +8,7 @@
 #include "ui_picoform.h"
 #include "config.h"
 #include "picoport.h"
+#include "filenamehandler.h"
 
 PicoForm::PicoForm(QWidget *parent)
 	: QWidget(parent)
@@ -287,12 +288,15 @@ void PicoForm::on_actionDownload_triggered()
 		QString dfn(dir.absoluteFilePath(ui->binFile->text()));
 //		qDebug() << Q_FUNC_INFO << f.fileName() << dfn;
 		sleep(1);
+		FilenameHandler fnh(f.fileName(), ".elf");
 		if (! f.copy(dfn))
 		{
 			qWarning() << Q_FUNC_INFO << f.fileName() << dfn << "*** no copy";
 			return;
 		}
 		f.remove();
+		qDebug() << f.fileName() << fnh.fullname();
+		f.remove(fnh.fullname());
 	}
 }
 
