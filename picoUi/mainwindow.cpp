@@ -5,6 +5,7 @@
 // ******************************************************
 
 #include "mainwindow.h"
+#include "filenamehandler.h"
 #include "ui_mainwindow.h"
 #include "config.h"
 #include "picoport.h"
@@ -103,5 +104,23 @@ void MainWindow::on_sendline_activated(int index)
 void MainWindow::on_actionClearHistory_triggered()
 {
 	ui->sendline->clear();
+}
+
+
+void MainWindow::on_actionSave_triggered()
+{
+	QString fn = QFileDialog::getSaveFileName(this, "Save log", Config::stringValue("logfile"), "*.log");
+	if (! fn.isNull())
+	{
+		FilenameHandler fnh(fn, ".log");
+		Config::setValue("logfile", fnh.fullname());
+		QFile f(fnh.fullname());
+		if (! f.open(QIODevice::WriteOnly | QIODevice::Truncate))
+		{
+			qWarning() << Q_FUNC_INFO << f.fileName() << f.errorString();
+			return;
+		}
+		f.write(ui->console->toPlainText().toLocal8Bit());
+	}
 }
 

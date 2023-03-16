@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	app.setApplicationName("picoUi");
-	app.setApplicationVersion("V0.6");
+	app.setApplicationVersion("V0.7");
 	app.setOrganizationDomain("ibb-aviotec.com");
 	app.setOrganizationName("IBB-aviotech");
 	QString srcDir;
