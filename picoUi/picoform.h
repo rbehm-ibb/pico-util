@@ -43,6 +43,11 @@ private slots:
 	void devDirectoryChanged(const QString &path);
 
 	void on_portSel_activated(int index);
+	// QWidget interface
+protected:
+	void dragEnterEvent(QDragEnterEvent *event) override;
+	void dragMoveEvent(QDragMoveEvent *event) override;
+	void dropEvent(QDropEvent *event) override;
 
 private:
 	Ui::PicoForm *ui;
@@ -57,12 +62,7 @@ private:
 	void chkDownload();
 	QString m_sn;
 	bool m_inside;
-
-	// QWidget interface
-protected:
-	void dragEnterEvent(QDragEnterEvent *event) override;
-	void dragMoveEvent(QDragMoveEvent *event) override;
-	void dropEvent(QDropEvent *event) override;
+	bool m_booting;
 };
 
 #endif // PICOFORM_H

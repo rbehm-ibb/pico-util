@@ -19,6 +19,7 @@ PicoForm::PicoForm(QWidget *parent)
 	, m_hasBin(false)
 	, m_hasPico(false)
 	, m_inside(false)
+	, m_booting(false)
 {
 	ui->setupUi(this);
 	m_styles.insert(false, "* { background: #ffffc0; }");
@@ -269,6 +270,7 @@ void PicoForm::dropEvent(QDropEvent *event)
 void PicoForm::on_reset_clicked()
 {
 	m_port->boot();
+	m_booting = true;
 }
 
 void PicoForm::on_actionDownload_triggered()
@@ -295,8 +297,8 @@ void PicoForm::on_actionDownload_triggered()
 			return;
 		}
 		f.remove();
-		qDebug() << f.fileName() << fnh.fullname();
 		f.remove(fnh.fullname());
+		m_booting = false;
 	}
 }
 
@@ -326,11 +328,17 @@ void PicoForm::on_actiondelBin_triggered()
 
 void PicoForm::devDirectoryChanged(const QString &path)
 {
+	qDebug() << Q_FUNC_INFO << m_inside << m_booting;
+	if (m_inside)
+	{
+		return;
+	}
 	m_inside = true;
 	Q_UNUSED(path);
 	const uint16_t vidPi = 0x2e8a;
+	const uint16_t vidSeed = 0x2886;
 	const uint16_t vidEAE = 0x0ae6;
-	const QVector<uint16_t> vid({ vidPi, vidEAE });
+	const QVector<uint16_t> vid({ vidPi, vidSeed, vidEAE });
 	qDebug() << Q_FUNC_INFO;
 	QString saved = ui->portSel->currentText();
 	ui->portSel->clear();
@@ -357,6 +365,7 @@ void PicoForm::devDirectoryChanged(const QString &path)
 	if (! portFound)
 	{
 		m_port->close();
+		m_booting = false;
 	}
 	ui->portSel->setCurrentText(saved);
 	if (m_port && m_port->isOpen())
@@ -377,24 +386,25 @@ void PicoForm::devDirectoryChanged(const QString &path)
 
 void PicoForm::on_portSel_activated(int index)
 {
-    qDebug() << Q_FUNC_INFO << index << m_sn;
-    if (m_inside)
-	    return;
-    if (index >= 0)
-    {
-	    QString sn = ui->portSel->currentText().section('#', -1);
-	    if (sn != m_sn)
-	    {
-		    m_sn = sn;
-		    qDebug() << Q_FUNC_INFO << index << m_sn;
-		    ui->portSel->setCurrentText(ui->portSel->itemText(index));
-		    foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
-		    {
-			    if (spi.serialNumber() == m_sn)
-			    {
-				    m_port->open(spi);
-				    return;
-			    }
-		    }
-	    }
-    }}
+//	qDebug() << Q_FUNC_INFO << index << m_sn;
+	if (m_inside)
+		return;
+	if (index >= 0)
+	{
+		QString sn = ui->portSel->currentText().section('#', -1);
+		if (sn != m_sn)
+		{
+			m_sn = sn;
+//			qDebug() << Q_FUNC_INFO << index << m_sn;
+			ui->portSel->setCurrentText(ui->portSel->itemText(index));
+			foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
+			{
+				if (spi.serialNumber() == m_sn)
+				{
+					m_port->open(spi);
+					return;
+				}
+			}
+		}
+	}
+}
