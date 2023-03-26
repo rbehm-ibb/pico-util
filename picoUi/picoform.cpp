@@ -28,7 +28,9 @@ PicoForm::PicoForm(QWidget *parent)
 	ui->binDir->addAction(ui->actionViewBin, QLineEdit::TrailingPosition);
 	ui->binFile->addAction(ui->actionDownload, QLineEdit::TrailingPosition);
 	ui->binFile->addAction(ui->actiondelBin, QLineEdit::TrailingPosition);
+//	ui->binFile->addAction(ui->actionNoDel, QLineEdit::TrailingPosition);
 	ui->picoDir->addAction(ui->actionSelPicoDir, QLineEdit::TrailingPosition);
+	ui->picoPort->addAction(ui->actionBoot, QLineEdit::TrailingPosition);
 	connect(m_port, &PicoPort::devChanged, this, &PicoForm::devChanged);
 	connect(m_binDirWatcher, &QFileSystemWatcher::directoryChanged, this, &PicoForm::binDirectoryChanged);
 	connect(m_picoDirWatcher, &QFileSystemWatcher::directoryChanged, this, &PicoForm::picoDirectoryChanged);
@@ -38,7 +40,7 @@ PicoForm::PicoForm(QWidget *parent)
 	setAcceptDrops(true);
 	ui->picoPort->setStyleSheet("* { background: white; }");
 	chkDownload();
-	ui->download->setChecked(Config::boolValue("picoForm/auto"));
+//	ui->download->setChecked(Config::boolValue("picoForm/auto"));
 	ui->autoDl->setChecked(Config::boolValue("picoForm/autodl"));
 	QFileSystemWatcher *devW = new QFileSystemWatcher(this);
 	connect(devW, &QFileSystemWatcher::directoryChanged, this, &PicoForm::devDirectoryChanged);
@@ -47,13 +49,17 @@ PicoForm::PicoForm(QWidget *parent)
 	ui->portSel->setCurrentText(m_sn);
 	devDirectoryChanged(QString());
 //	ui->portSel->setCurrentText(Config::stringValue("picoForm/port"));
+//	ui->actionNoDel->setChecked(Config::boolValue("picoForm/noDelBin"));
+	addAction(ui->actionBoot);
+	connect(ui->actionBoot, &QAction::triggered, this, &PicoForm::actionBoot_triggered);
+
 }
 
 PicoForm::~PicoForm()
 {
 	Config::setValue("picoForm/bindir", ui->binDir->text());
 	Config::setValue("picoForm/picoDir", ui->picoDir->text());
-	Config::setValue("picoForm/auto", ui->download->isChecked());
+//	Config::setValue("picoForm/noDelBin", ui->actionNoDel->isChecked());
 	Config::setValue("picoForm/autodl", ui->autoDl->isChecked());
 	Config::setValue("picoForm/port", ui->portSel->currentText());
 	Config::setValue("pico/serial", m_sn);
@@ -105,14 +111,14 @@ void PicoForm::devChanged(bool on)
 {
 	ui->picolab->setStyleSheet(m_styles.value(on));
 	ui->picoPort->setText(m_port->device());
-	ui->reset->setEnabled(on);
-	qDebug() << Q_FUNC_INFO << m_port->device() << m_port->isOpen() << on;
+	ui->actionBoot->setEnabled(on);
+//	qDebug() << Q_FUNC_INFO << m_port->device() << m_port->isOpen() << on << ui->actionBoot->isEnabled() << ui->picoPort->isEnabled();
 }
 
 void PicoForm::binDirectoryChanged(const QString &path)
 {
 	Q_UNUSED(path)
-//	qDebug() << Q_FUNC_INFO << path;
+	qDebug() << Q_FUNC_INFO << path;
 	chkBin();
 }
 
@@ -190,10 +196,10 @@ void PicoForm::chkBin()
 			if (! m_hasBin)	// newly on?
 			{
 				m_hasBin = true;
-				if (ui->download->isChecked() && ! m_hasPico)
+				if (ui->autoDl->isChecked() && ! m_hasPico)
 				{
 					chkDownload();
-					on_reset_clicked();
+					m_port->boot();
 				}
 			}
 			m_hasBin = true;
@@ -211,9 +217,9 @@ void PicoForm::chkBin()
 void PicoForm::chkDownload()
 {
 //	qDebug() << Q_FUNC_INFO << m_hasBin << m_hasPico << ui->download->isChecked();
-	ui->actionDownload->setEnabled(m_hasBin && m_hasPico);
+	ui->actionDownload->setEnabled(m_hasBin /*&& m_hasPico*/);
 	ui->actiondelBin->setEnabled(m_hasBin);
-	if (m_hasBin && m_hasPico && ui->download->isChecked())
+	if (m_hasBin && m_hasPico && ui->autoDl->isChecked())
 	{
 		on_actionDownload_triggered();
 	}
@@ -267,14 +273,14 @@ void PicoForm::dropEvent(QDropEvent *event)
 	}
 }
 
-void PicoForm::on_reset_clicked()
-{
-	m_port->boot();
-	m_booting = true;
-}
+//void PicoForm::on_reset_clicked()
+//{
+//	m_port->boot();
+//}
 
 void PicoForm::on_actionDownload_triggered()
 {
+	qDebug() << Q_FUNC_INFO;
 	if (m_hasBin && m_hasPico)
 	{
 //		qDebug() << Q_FUNC_INFO;
@@ -302,13 +308,14 @@ void PicoForm::on_actionDownload_triggered()
 	}
 }
 
-void PicoForm::on_download_toggled(bool checked)
-{
-	if (checked)
-	{
-		ui->autoDl->setChecked(true);
-	}
-}
+//void PicoForm::on_download_toggled(bool checked)
+//{
+//	qDebug() << Q_FUNC_INFO << checked;
+//	if (checked)
+//	{
+//		ui->autoDl->setChecked(true);
+//	}
+//}
 
 void PicoForm::on_actiondelBin_triggered()
 {
@@ -396,7 +403,6 @@ void PicoForm::on_portSel_activated(int index)
 		{
 			m_sn = sn;
 //			qDebug() << Q_FUNC_INFO << index << m_sn;
-			ui->portSel->setCurrentText(ui->portSel->itemText(index));
 			foreach (const QSerialPortInfo &spi, QSerialPortInfo::availablePorts())
 			{
 				if (spi.serialNumber() == m_sn)
@@ -407,4 +413,10 @@ void PicoForm::on_portSel_activated(int index)
 			}
 		}
 	}
+}
+
+void PicoForm::actionBoot_triggered()
+{
+	qDebug() << Q_FUNC_INFO;
+	m_port->boot();
 }

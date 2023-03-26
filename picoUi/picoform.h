@@ -34,10 +34,10 @@ private slots:
 	void devChanged(bool  on);
 	void binDirectoryChanged(const QString &path);
 	void picoDirectoryChanged(const QString &path);
-	void on_reset_clicked();
+//	void on_reset_clicked();
 	void on_actionDownload_triggered();
 
-	void on_download_toggled(bool checked);
+//	void on_download_toggled(bool checked);
 
 	void on_actiondelBin_triggered();
 	void devDirectoryChanged(const QString &path);
@@ -48,6 +48,8 @@ protected:
 	void dragEnterEvent(QDragEnterEvent *event) override;
 	void dragMoveEvent(QDragMoveEvent *event) override;
 	void dropEvent(QDropEvent *event) override;
+
+	void actionBoot_triggered();
 
 private:
 	Ui::PicoForm *ui;
