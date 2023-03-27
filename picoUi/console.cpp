@@ -121,7 +121,6 @@ void Console::charRxd(char ch)
 {
 //	qDebug() << Q_FUNC_INFO << hex << uint(ch) << dec;
 
-	// TODO add ANSI interpreter
 	switch (ch)
 	{
 	case 0x0d:
@@ -129,17 +128,6 @@ void Console::charRxd(char ch)
 	case 0x0c:
 		setPlainText("");
 		return;
-	case 0x08:
-	{
-		QString text = toPlainText();
-		setPlainText(text.mid(0, text.length() - 1));
-		moveCursor(QTextCursor::End);
-	}
-		return;
-	case '\a':
-		qApp->beep();
-		return;
-
 	}
 	QString text = "";
 	moveCursor(QTextCursor::End);
