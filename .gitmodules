@@ -1,0 +1,3 @@
+[submodule "picoUi/qt-library"]
+	path = picoUi/qt-library
+	url = https://github.com/rbehm-ibb/qt-library.git
