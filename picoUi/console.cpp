@@ -141,10 +141,10 @@ void Console::charRxd(char ch)
 		if(cur.block().length() > wrapMode)
 			cur.insertBlock();
 	}
-	else if(cur.block().length() > maxcol)
-	{
-		cur.insertBlock();
-	}
+//	else if(cur.block().length() > maxcol)
+//	{
+//		cur.insertBlock();
+//	}
 	if(cur.block().length() - 1 > cur.columnNumber())
 	{
 		cur.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor);
