@@ -15,11 +15,14 @@ MainWindow::MainWindow(QString binDir, QWidget *parent)
 	, ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	ui->sendline->setMaximumWidth(1800);
+
 	if (! binDir.isEmpty())
 	{
 		ui->picoForm->initBinDir(binDir);
 	}
 	ui->txline->setText(Config::stringValue("txline"));
+	ui->txpre->setText(Config::stringValue("txpre"));
 	ui->sendline->clear();
 	ui->sendline->addItems(Config::value("txlines").toStringList());
 	connect(ui->picoForm->port(), &QSerialPort::readyRead, this, &MainWindow::readRxdDataSlot);
@@ -31,6 +34,7 @@ MainWindow::MainWindow(QString binDir, QWidget *parent)
 MainWindow::~MainWindow()
 {
 	Config::setValue("txline", ui->txline->text());
+	Config::setValue("txpre", ui->txpre->text());
 	QStringList items;
 	QComboBox *box = ui->sendline;
 	const int nrow = box->model()->rowCount();
@@ -76,7 +80,8 @@ void MainWindow::on_actionSizeH_triggered()
 void MainWindow::on_txline_returnPressed()
 {
 	QByteArray line = ui->txline->text().toLocal8Bit();
-	ui->picoForm->port()->sendSerial(line + '\r');
+	QByteArray pre = ui->txpre->text().toLocal8Bit();
+	ui->picoForm->port()->sendSerial(pre+line + '\r');
 	QComboBox *box = ui->sendline;
 	const int nrow = box->model()->rowCount();
 	bool insert = true;
