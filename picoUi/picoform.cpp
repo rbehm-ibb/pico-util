@@ -9,6 +9,7 @@
 #include "config.h"
 #include "picoport.h"
 #include "filenamehandler.h"
+#include <unistd.h>
 
 PicoForm::PicoForm(QWidget *parent)
 	: QWidget(parent)
@@ -292,9 +293,10 @@ void PicoForm::on_actionDownload_triggered()
 			qWarning() << Q_FUNC_INFO << f.fileName() << "not found";
 			return;
 		}
-		dir.setPath(ui->picoDir->text());
-		QString dfn(dir.absoluteFilePath(ui->binFile->text()));
-//		qDebug() << Q_FUNC_INFO << f.fileName() << dfn;
+		QDir destdir(ui->picoDir->text());
+//		dir.setPath(ui->picoDir->text());
+		QString dfn(destdir.absoluteFilePath(ui->binFile->text()));
+		qDebug() << Q_FUNC_INFO << f.fileName() << dfn;
 		sleep(1);
 		FilenameHandler fnh(f.fileName(), ".elf");
 		if (! f.copy(dfn))
@@ -302,8 +304,8 @@ void PicoForm::on_actionDownload_triggered()
 			qWarning() << Q_FUNC_INFO << f.fileName() << dfn << "*** no copy";
 			return;
 		}
-		f.remove();
-		f.remove(fnh.fullname());
+		f.moveToTrash();		// at least keep  the flashed file  somewhere
+		f.remove(fnh.fullname());	// remove ".elf" to force make, Makefile does not have uf2 as target
 		m_booting = false;
 	}
 }
