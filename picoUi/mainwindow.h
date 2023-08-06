@@ -26,7 +26,6 @@ public slots:
 private slots:
 	void readRxdDataSlot();
 	void on_actionClear_triggered();
-	void on_actionSizeH_triggered();
 	void on_txline_returnPressed();
 	void on_sendline_activated(int index);
 	void on_actionClearHistory_triggered();
