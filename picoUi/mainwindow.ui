@@ -188,7 +188,7 @@
   </widget>
   <action name="actionClear">
    <property name="icon">
-    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/fileclose</normaloff>:/fileclose</iconset>
    </property>
    <property name="text">
@@ -197,7 +197,7 @@
   </action>
   <action name="actionSizeH">
    <property name="icon">
-    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/top</normaloff>:/top</iconset>
    </property>
    <property name="text">
@@ -206,7 +206,7 @@
   </action>
   <action name="actionClearHistory">
    <property name="icon">
-    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/stdicons/delete.png</normaloff>:/stdicons/delete.png</iconset>
    </property>
    <property name="text">
@@ -215,7 +215,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="../../../../Qt/qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/doc-save-as</normaloff>:/doc-save-as</iconset>
    </property>
    <property name="text">
@@ -246,7 +246,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
+  <include location="../../../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>
